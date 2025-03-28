@@ -13,9 +13,9 @@ public class ExternalApiController {
     @Autowired
     private ExternalApiService externalApiService;
 
-    @GetMapping("/api/external")
+    @GetMapping("https://randomuser.me/api")
     public ResponseEntity<String> callExternalApi(@RequestParam String token) {
-        String url = "https://api.externa.com/endpoint"; // Cambia esto por la URL de la API externa
+        String url = "https://randomuser.me/api/?results=25"; // Cambia esto por la URL de la API externa
         String response = externalApiService.callExternalApi(url, token);
         return ResponseEntity.ok(response);
     }
