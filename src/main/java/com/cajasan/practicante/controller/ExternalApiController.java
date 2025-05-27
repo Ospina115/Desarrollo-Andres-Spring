@@ -1,21 +1,15 @@
 package com.cajasan.practicante.controller;
 
-import com.cajasan.practicante.model.EmpresaModel;
-import com.cajasan.practicante.service.ExternalApiService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 @RestController
-@RequestMapping("/api/externa")
+@RequestMapping("/api/external")
 public class ExternalApiController {
-
-    @Autowired
-    private ExternalApiService externalApiService;
-
-    @GetMapping("/empresa")
-    public EmpresaModel getEmpresa() {
-        return externalApiService.getEmpresa();
+    private final ExternalApiService externalApiService;
+    public ExternalApiController(ExternalApiService externalApiService) {
+        this.externalApiService = externalApiService;
+    }
+    @GetMapping("/data")
+    public ResponseEntity<String> getData(@RequestParam String url) {
+        String response = externalApiService.callExternalApi(url);
+        return ResponseEntity.ok(response);
     }
 }
