@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@//localhost:1521/XEPDB1
+    username: host
+    password: 123456
+    driver-class-name: oracle.jdbc.OracleDriver
+    jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate.dialect: org.hibernate.dialect.Oracle12cDialect
+
+external:
+  auth:
+    url: https://wsc.cajasan.com/api/auth/token
+    username: RPA-PIX
+    password: PIÑAOROMIEL
