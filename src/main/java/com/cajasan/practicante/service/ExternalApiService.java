@@ -1,24 +1,35 @@
 package com.cajasan.practicante.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 
 @Service
 public class ExternalApiService {
 
-    @Autowired
-    private RestTemplate restTemplate;
+    @Value("${external.api.url}")
+    private String apiUrl;
 
-    public String callExternalApi(String url, String token) {
+    @Value("${external.api.token}")
+    private String apiToken;
+
+    private final RestTemplate restTemplate;
+
+    public ExternalApiService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
+    public ExampleModel callExternalApi() {
         HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(token);
+        headers.set("Authorization", "Bearer " + apiToken);
+        
         HttpEntity<String> entity = new HttpEntity<>(headers);
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+        
+        ResponseEntity<ExampleModel> response = restTemplate.exchange(apiUrl, HttpMethod.GET, entity, ExampleModel.class);
+        
         return response.getBody();
     }
 }

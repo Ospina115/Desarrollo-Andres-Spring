@@ -1,22 +1,21 @@
 package com.cajasan.practicante.controller;
 
+import com.cajasan.practicante.model.ExampleModel;
 import com.cajasan.practicante.service.ExternalApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/external")
 public class ExternalApiController {
 
     @Autowired
     private ExternalApiService externalApiService;
 
-    @GetMapping("https://randomuser.me/api")
-    public ResponseEntity<String> callExternalApi(@RequestParam String token) {
-        String url = "https://randomuser.me/api/?results=25"; // Cambia esto por la URL de la API externa
-        String response = externalApiService.callExternalApi(url, token);
-        return ResponseEntity.ok(response);
+    @GetMapping("/data")
+    public ResponseEntity<ExampleModel> getExternalData(@RequestHeader("Authorization") String bearerToken) {
+        ExampleModel responseData = externalApiService.callExternalApi(bearerToken);
+        return ResponseEntity.ok(responseData);
     }
 }
